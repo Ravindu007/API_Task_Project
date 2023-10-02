@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TaskAPIProject.Services;
 
 namespace TaskAPIProject.Controllers
 {
@@ -7,12 +8,29 @@ namespace TaskAPIProject.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        //get all tasks
-        [HttpGet]
-        public IActionResult Tasks()
+        private TaskService _taskService;
+
+        public TasksController()
         {
-            var tasks = new string[] { "Task1", "Task2", "Task3" }; 
+            _taskService = new TaskService();
+        }
+
+        //get all tasks
+        [HttpGet("{id?}")]
+        public IActionResult GetAllTasks(int? id)
+        {
+            //Get data
+            var tasks = _taskService.AllTasks();
+
+            //check whether request has a parameter (if No paramter)
+            if (id is null) return Ok(tasks);
+
+            //if there is a parameter
+            tasks = tasks.Where(todo => todo.Id == id).ToList();
             return Ok(tasks);
         }
+
+        
+
     }
 }
