@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using TaskAPIProject.Services;
+using TaskAPIProject.Services.Tasks;
 
 namespace TaskAPIProject.Controllers
 {
@@ -16,21 +16,22 @@ namespace TaskAPIProject.Controllers
         }
 
         //get all tasks
-        [HttpGet("{id?}")]
-        public IActionResult GetAllTasks(int? id)
+        [HttpGet]
+        public IActionResult GetAllTasks()
         {
-            //Get data
             var tasks = _taskService.AllTasks();
-
-            //check whether request has a parameter (if No paramter)
-            if (id is null) return Ok(tasks);
-
-            //if there is a parameter
-            tasks = tasks.Where(todo => todo.Id == id).ToList();
             return Ok(tasks);
         }
 
-        
+        //Get single Task
+        [HttpGet("{id}")]
+        public IActionResult GetSingleTask(int id)
+        {
+            var task = _taskService.GetTask(id);
+            if (task is null) return NotFound();
+
+            return Ok(task);
+        }
 
     }
 }

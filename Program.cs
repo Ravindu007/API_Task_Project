@@ -1,4 +1,5 @@
-using TaskAPIProject.Services;
+using TaskAPIProject.Services.Authors;
+using TaskAPIProject.Services.Tasks;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -9,6 +10,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<ITaskRepository, TaskSqlService>();
+builder.Services.AddScoped<IAuthorRepository, AuthorSqlServerService>();
 
 var app = builder.Build();
 
