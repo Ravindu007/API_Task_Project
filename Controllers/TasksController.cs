@@ -8,11 +8,11 @@ namespace TaskAPIProject.Controllers
     [ApiController]
     public class TasksController : ControllerBase
     {
-        private TaskService _taskService;
+        private ITaskRepository _taskService;
 
-        public TasksController()
+        public TasksController(ITaskRepository repository)
         {
-            _taskService = new TaskService();
+            _taskService = repository;
         }
 
         //get all tasks
